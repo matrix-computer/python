@@ -1,4 +1,4 @@
-FROM python:alpine3.6
+FROM python:alpine3.7
 
 ## STEP 1:
 ## COMPILE FREETDS WITH OPENSSL
@@ -27,7 +27,7 @@ RUN pip3 install Cython
 RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql
 
 
-FROM python:alpine3.6
+FROM python:alpine3.7
 
 ## STEP 1:
 ## Copy external libraries & wheel from previous stage
