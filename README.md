@@ -1,7 +1,7 @@
-Python
-===========================
+Python with pymssql built for Azure
+======
 
-# Motivation
+## Motivation
 We use Azure SQL and managed SQL server instances on Azure. To be able to support them, one needs:
 
 - freetds build with openssl
