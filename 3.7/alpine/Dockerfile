@@ -22,7 +22,7 @@ RUN export CFLAGS="-fPIC" && \
 RUN make && make install
 
 ## STEP 2:
-## COMPILE PYMSSQL AND CREATE WHEEL
+## COMPILE PYMSSQL+LXML AND CREATE WHEELS
 RUN pip3 install Cython
 RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql
 RUN pip3 wheel --wheel-dir=/tmp/wheel lxml
@@ -34,8 +34,8 @@ FROM python:alpine3.7
 ## Copy external libraries & wheel from previous stage
 COPY --from=0 /tmp/wheel /tmp/wheel
 COPY --from=0 /usr/lib/libsybdb.so.5 /usr/lib/libsybdb.so.5 
-COPY --from=0 /usr/lib/libssl.so.1.0.0 /usr/lib/libssl.so.1.0.0 
-COPY --from=0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 
+
+RUN apk --no-cache add openssl libxml2 libxslt
 
 ## install wheel
 RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql lxml
