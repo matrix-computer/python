@@ -33,8 +33,10 @@ FROM python:3.7-slim
 ## Copy external libraries & wheel from previous stage
 COPY --from=0 /tmp/wheel /tmp/wheel
 COPY --from=0 /usr/lib/libsybdb.so.5 /usr/lib/libsybdb.so.5 
-COPY --from=0 /usr/lib/libssl.so.1.0.0 /usr/lib/libssl.so.1.0.0 
-COPY --from=0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 
+#COPY --from=0 /usr/lib/libssl.so.1.0.0 /usr/lib/libssl.so.1.0.0 
+COPY --from=0 /usr/lib/x86_64-linux-gnu/libssl.so.1.1 /usr/lib/x86_64-linux-gnu/libssl.so.1.1
+#COPY --from=0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 
+COPY --from=0 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
 
 ## install wheel
 RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql
