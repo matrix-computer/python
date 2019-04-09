@@ -1,8 +1,8 @@
 FROM python:alpine3.7
 
 ## STEP 1:
-## COMPILE FREETDS WITH OPENSSL
-RUN apk --no-cache add build-base linux-headers openssl-dev openssl patchelf
+## COMPILE FREETDS WITH OPENSSL, ADD LXML DEV
+RUN apk --no-cache add build-base linux-headers openssl-dev libxml2-dev libxslt-dev openssl patchelf
 
 # get FreeTDS (latest stable realease)
 RUN wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.1.tar.gz -O - | tar -xz -C /tmp
@@ -25,6 +25,7 @@ RUN make && make install
 ## COMPILE PYMSSQL AND CREATE WHEEL
 RUN pip3 install Cython
 RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql
+RUN pip3 wheel --wheel-dir=/tmp/wheel lxml
 
 
 FROM python:alpine3.7
@@ -37,5 +38,5 @@ COPY --from=0 /usr/lib/libssl.so.1.0.0 /usr/lib/libssl.so.1.0.0
 COPY --from=0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 
 
 ## install wheel
-RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql
+RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql lxml
 

@@ -6,5 +6,6 @@ We use Azure SQL and managed SQL server instances on Azure. To be able to suppor
 
 - freetds build with openssl
 - a small bug fixed to be able to connect to managed SQL Server instances
+- lxml
 
 
