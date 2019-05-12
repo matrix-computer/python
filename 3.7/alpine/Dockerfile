@@ -2,18 +2,16 @@ FROM python:alpine3.7
 
 ## STEP 1:
 ## COMPILE FREETDS WITH OPENSSL, ADD LXML DEV
-RUN apk --no-cache add build-base linux-headers openssl-dev libxml2-dev libxslt-dev openssl patchelf
+RUN apk --no-cache add build-base openssl-dev libxml2-dev libxslt-dev openssl patchelf automake autoconf libtool linux-headers m4 gettext-dev git
 
-# get FreeTDS (latest stable realease)
-RUN wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.1.tar.gz -O - | tar -xz -C /tmp
-
-# get patched config.c
-RUN wget https://raw.githubusercontent.com/matrix-computer/freetds/master/src/tds/config.c -O /tmp/freetds-1.1/src/tds/config.c
-
-WORKDIR /tmp/freetds-1.1
+# get FreeTDS (latest 1.1 branch)
+WORKDIR /tmp
+RUN git clone https://github.com/FreeTDS/freetds.git 
+WORKDIR /tmp/freetds
+RUN git checkout Branch-1_1
 
 RUN export CFLAGS="-fPIC" && \
-    ./configure --enable-msdblib \
+    /bin/sh ./autogen.sh --enable-msdblib \
    --prefix=/usr --sysconfdir=/etc/freetds --with-tdsver=7.4 \
    --disable-apps \
    --disable-server --disable-pool --disable-odbc \ 
