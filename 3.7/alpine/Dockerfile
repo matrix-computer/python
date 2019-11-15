@@ -22,7 +22,7 @@ RUN make && make install
 ## STEP 2:
 ## COMPILE PYMSSQL+LXML AND CREATE WHEELS
 RUN pip3 install --upgrade pip && pip3 install Cython
-RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql
+RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql==2.1.4
 RUN pip3 wheel --wheel-dir=/tmp/wheel lxml
 RUN pip3 wheel --wheel-dir=/tmp/wheel pycryptodome
 
