@@ -21,9 +21,10 @@ RUN make && make install
 
 ## STEP 2:
 ## COMPILE PYMSSQL+LXML AND CREATE WHEELS
-RUN pip3 install Cython
+RUN pip3 install --upgrade pip && pip3 install Cython
 RUN pip3 wheel --wheel-dir=/tmp/wheel pymssql
 RUN pip3 wheel --wheel-dir=/tmp/wheel lxml
+RUN pip3 wheel --wheel-dir=/tmp/wheel pycrypto
 
 
 FROM python:alpine3.7
@@ -36,5 +37,5 @@ COPY --from=0 /usr/lib/libsybdb.so.5 /usr/lib/libsybdb.so.5
 RUN apk --no-cache add openssl libxml2 libxslt
 
 ## install wheel
-RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql lxml
+RUN pip3 install --upgrade pip && pip install --no-index --find-links=/tmp/wheel pymssql lxml pycrypto
 
